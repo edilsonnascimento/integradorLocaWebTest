@@ -1,7 +1,5 @@
 package br.com.expoente.integralocaweb.entity;
 
-import br.com.expoente.integralocaweb.entity.ItemCampanha;
-import br.com.expoente.integralocaweb.entity.Page;
 import java.util.ArrayList;
 import java.util.List;
 
