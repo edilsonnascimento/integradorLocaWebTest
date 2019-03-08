@@ -1,18 +1,17 @@
 package br.com.expoente.integralocaweb.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author ednascimento
  */
-public class Contato {
+public class ContatoImportadoLocaWeb {
 
     private Page page;
-    private List<ItemContato> items = new ArrayList<ItemContato>();
+    private List<ItemContato> items;
 
-    public Contato() {
+    public ContatoImportadoLocaWeb() {
     }
 
     public Page getPage() {

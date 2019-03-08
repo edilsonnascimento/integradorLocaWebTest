@@ -7,12 +7,12 @@ import java.util.List;
  *
  * @author ednascimento
  */
-public class MensagemImportada {
+public class MensagemImportadaLocaWeb {
 
     private Page page;
     private List<ItemMensagem> items = new ArrayList<ItemMensagem>();
 
-    public MensagemImportada() {
+    public MensagemImportadaLocaWeb() {
     }
 
     public Page getPage() {

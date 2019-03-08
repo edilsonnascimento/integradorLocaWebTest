@@ -7,13 +7,13 @@ package br.com.expoente.integralocaweb.entity;
  *
  * @author ednascimento
  */
-public class CampanhaEnviadaLocaWeb {
+public class ListaExportadaLocaWeb {
 
     private Integer idLocaWeb;
     private String name;
     private String description;
 
-    public CampanhaEnviadaLocaWeb() {
+    public ListaExportadaLocaWeb() {
     }
 
     public Integer getIdLocaWeb() {

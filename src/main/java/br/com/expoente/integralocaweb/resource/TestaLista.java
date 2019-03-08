@@ -1,6 +1,7 @@
 package br.com.expoente.integralocaweb.resource;
 
-import br.com.expoente.integralocaweb.entity.ListaEnviadaLocaWeb;
+import br.com.expoente.integralocaweb.config.Acessos;
+import br.com.expoente.integralocaweb.entity.ListaExportadaLocaWeb;
 import br.com.expoente.integralocaweb.entity.ListaImportadaLocaWeb;
 import br.com.expoente.integralocaweb.excepetion.BusinessException;
 import javax.annotation.PostConstruct;
@@ -56,7 +57,7 @@ public class TestaLista {
     @Path("cria")
     public void criaLista() {
 
-        ListaEnviadaLocaWeb listaEnvida = new ListaEnviadaLocaWeb();
+        ListaExportadaLocaWeb listaEnvida = new ListaExportadaLocaWeb();
 
         listaEnvida.setName("Lista TESTE 3");
         listaEnvida.setDescription("Descricao lista DE LISTA TESTE 3");
@@ -100,7 +101,7 @@ public class TestaLista {
 
         Integer id = 132;
 
-        ListaEnviadaLocaWeb listaEnvida = new ListaEnviadaLocaWeb();
+        ListaExportadaLocaWeb listaEnvida = new ListaExportadaLocaWeb();
         listaEnvida.setName("Lista TESTE 02 NOVO");
         listaEnvida.setDescription("Descricao lista DE LISTA TESTE 02 NOVO");
 

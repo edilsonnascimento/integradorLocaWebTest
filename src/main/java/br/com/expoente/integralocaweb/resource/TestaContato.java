@@ -1,9 +1,11 @@
 package br.com.expoente.integralocaweb.resource;
 
 import br.com.expoente.integralocaweb.config.Acessos;
-import br.com.expoente.integralocaweb.entity.CampanhaExportadaLocaWeb;
-import br.com.expoente.integralocaweb.entity.CampanhaImportadaLocaWeb;
+import br.com.expoente.integralocaweb.entity.ContatoCustomFields;
+import br.com.expoente.integralocaweb.entity.ContatoExportadoLocaWeb;
+import br.com.expoente.integralocaweb.entity.ContatoImportadoLocaWeb;
 import br.com.expoente.integralocaweb.excepetion.BusinessException;
+import java.util.Arrays;
 import javax.annotation.PostConstruct;
 import javax.json.JsonObject;
 import javax.ws.rs.GET;
@@ -20,15 +22,15 @@ import javax.ws.rs.core.Response;
  *
  * @author ednascimento
  */
-@Path("campanha")
+@Path("contato")
 @Produces(MediaType.APPLICATION_JSON)
-public class TestaCampanha {
+public class TestaContato {
 
     Acessos acessos = new Acessos();
 
     private Client client;
 
-    private String endPoint = acessos.getIdConta() + "/campaigns";
+    private String endPoint = acessos.getIdConta() + "/contacts";
 
     @PostConstruct
     public void init() {
@@ -39,7 +41,8 @@ public class TestaCampanha {
     @GET
     @Path("test")
     public Response test() {
-        System.out.println("RESPONDIDO...");
+        System.out.println("ENDPONT: " + acessos.getUriLocaWeb() + endPoint);
+        System.out.println("CONTATO RESPONDIDO...");
         return Response.ok().build();
     }
 
@@ -47,13 +50,14 @@ public class TestaCampanha {
     public Response getLista() {
 
         System.out.println("ENDPONT: " + acessos.getUriLocaWeb() + endPoint);
-        CampanhaImportadaLocaWeb lista = client
+
+        ContatoImportadoLocaWeb listagem = client
                 .target(acessos.getUriLocaWeb() + endPoint)
                 .request(MediaType.APPLICATION_JSON)
                 .header(acessos.getKeyAuthorization(), acessos.getToken())
-                .get(CampanhaImportadaLocaWeb.class);
+                .get(ContatoImportadoLocaWeb.class);
 
-        System.out.println("LISTA: " + lista.toString());
+        System.out.println("LISTAGEM: " + listagem.toString());
         return Response.ok().build();
     }
 
@@ -61,26 +65,27 @@ public class TestaCampanha {
     @Path("cria")
     public void criaCampanha() {
 
-        CampanhaExportadaLocaWeb campanhaEnvida = new CampanhaExportadaLocaWeb();
+        ContatoExportadoLocaWeb contatoExportado = new ContatoExportadoLocaWeb();
 
-        campanhaEnvida.setName("NOME: CAMPANHA TESTE 4");
-        campanhaEnvida.setDescription("DESCRICAO: CAMPANHA TESTE 4");
+        contatoExportado.setEmail("email4@locaweb.com.br");
+        contatoExportado.setList_ids(Arrays.asList("4fa136a52c1e581220000005"));
+        contatoExportado.getCustom_fields().setNome("USUARIO TESTE 4");
+        contatoExportado.getCustom_fields().setCidade("Curitiba/PR");
+        contatoExportado.getCustom_fields().setData_de_nascimento("01/01/1980");
 
-        //System.out.println(Entity.json(campanhaEnvida));
         try {
             Response response = client
                     .target(acessos.getUriLocaWeb() + endPoint)
                     .request()
                     .header(acessos.getKeyAuthorization(), acessos.getToken())
-                    .post(Entity.json(campanhaEnvida));
+                    .post(Entity.json(contatoExportado));
 
             if (response.getStatus() == 200) {
                 Integer id = response.readEntity(JsonObject.class).getInt("id");
-                campanhaEnvida.setIdLocaWeb(id);
-                System.out.println("RESPONSE: " + campanhaEnvida.getIdLocaWeb());
-
+                contatoExportado.setIdLocaWeb(id);
+                System.out.println("RESPONSE: " + contatoExportado.getIdLocaWeb());
             } else {
-                throw new BusinessException("ERRO ao tentar cadastrar a LISTA: " + campanhaEnvida.getName() + " no LOCAWEB código de retorno: " + response.getStatus());
+                throw new BusinessException("ERRO ao tentar cadastrar MENSAGEM: " + contatoExportado.getCustom_fields().getNome() + " no LOCAWEB código de retorno: " + response.getStatus());
             }
 
         } catch (RuntimeException ex) {
@@ -101,23 +106,24 @@ public class TestaCampanha {
     }
 
     @GET
-    @Path("altera")
-    public void alteraLista() {
+    @Path("altera/{id}")
+    public void alteraLista(@PathParam("id") Integer id) {
 
-        Integer id = 24;
+        ContatoExportadoLocaWeb contatoExportado = new ContatoExportadoLocaWeb();
 
-        CampanhaExportadaLocaWeb campanhaEnvida = new CampanhaExportadaLocaWeb();
-        campanhaEnvida.setName("NOME: CAMPANHA TESTE 03 ALTERADA");
-        campanhaEnvida.setDescription("DESCRICAO: CAMPANHA TESTE 03 ALTERADA");
+        contatoExportado.setList_ids(Arrays.asList("4fa136a52c1e581220000005", "4fa136a52c1e58122000000"));
+        contatoExportado.getCustom_fields().setNome("USUARIO TESTE 04 - ALTERADO");
+        contatoExportado.getCustom_fields().setCidade("Curitiba");
+        contatoExportado.getCustom_fields().setData_de_nascimento("09/12/1980");
 
-        System.out.println(Entity.json(campanhaEnvida));
-
+        System.out.println("CONTATO: " + Entity.json(contatoExportado).toString());
         Response response = client
                 .target(acessos.getUriLocaWeb() + endPoint + "/" + id)
                 .request()
                 .header(acessos.getKeyAuthorization(), acessos.getToken())
-                .put(Entity.json(campanhaEnvida));
+                .put(Entity.json(contatoExportado));
 
         System.out.println("ALTERADO ...");
     }
+
 }

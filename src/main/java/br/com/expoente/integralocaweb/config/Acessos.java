@@ -1,4 +1,4 @@
-package br.com.expoente.integralocaweb.resource;
+package br.com.expoente.integralocaweb.config;
 
 /**
  *
